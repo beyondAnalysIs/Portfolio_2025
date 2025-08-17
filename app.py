@@ -17,7 +17,7 @@ st.set_page_config(
     page_title= "Anderson Hernández || Data Analyst & Scientist",
     page_icon= "👨‍💻",
     layout= "wide",
-    initial_sidebar_state= "collapsed" # 
+    initial_sidebar_state= "collapsed" 
     
 )
 
@@ -245,7 +245,6 @@ def get_projects_data():
             "metrics": {"Eficiencia": "94% reducción", "Archivos": "100+", "Automatización": "Completa"}
         }
     ]
-    
 #===========================================
 # FUNCIONES DE UTILIDAD
 #===========================================
@@ -254,14 +253,15 @@ def create_skill_chart():
     skills_data = {
         "Skill": ["Python", "Pandas", "Plotly", "Streamlit", "SQL", "Machine Learning", "Data Analysis", "Excel"],
         "Level": [95, 90, 88, 85, 75, 70, 92, 85],
-        "Category": ["Programming", "Data", "Visualización", "Web Dev", "ML", "Analysis", "Tools"] 
+        "Category": ["Programming", "Data", "Visualización", "Web Dev", "ML", "Analysis", "Tools", "EDA"] 
     }
 
     df = pd.DataFrame(skills_data)
 
     fig = px.bar(df, x="Level", y="Skill", orientation = 'h',
                  color="Category",title="Habilidades Técnicas", 
-                 color_discrete_secuence=px.colors.qualitative.Set3)
+                 #color_discrete_secuence=px.colors.qualitative)
+    )
 
     fig.update_layout(
         height=400,
@@ -305,4 +305,46 @@ def create_projects_timeline():
 
     return fig
     
-    
+def create_tech_distribution():
+    """ Crear gráfico de distribucion de tecnologías"""
+    projects = get_projects_data()
+
+    tech_counts = {}
+
+    for project in projects:
+        for tech in project['tech_stack']:
+            if tech in tech_counts:
+                tech_counts[tech] += 1
+            else:
+                tech_counts[tech] = 1
+
+    fig = px.pie(
+        values=list(tech_counts.values()),
+        names=list(tech_counts.keys()),
+        title="Distribución de Tecnologías"
+    )
+
+    fig.update_layout(
+        height=400,
+        paper_bgcolor="rgba(0, 0, 0, 0)",
+        plot_bgcolor="rgba(0, 0, 0, 0)",
+        font=dict(color="white")
+    )
+
+    return fig
+
+def display_projects_card(project):
+    """ Mostrar card de proyecto"""
+    with st.container():
+        st.markdown(f"""
+            <div class = "project-title>{project['title']}</div>
+            <p>{project["description"]}</p>                    
+            <p><strong>📅 Fecha:</strong>{project["date"]}</p>
+            <p><strong>💡 Impacto:</strong>{project["impact"]}</p>
+           """, unsafe_allow_html=True)
+
+        # Tech stack tags
+        st.markdown("** 🛠️ Tecnologías")
+#===========================================
+# PÁGINAS DE LA APLICACIÓN
+#===========================================
