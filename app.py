@@ -14,7 +14,7 @@ import base64 # base64
 #===========================================
 
 st.set_page_config(
-    page_title= "Anderson Hernández || Data Analyst & Scientist",
+    page_title= "Anderson Hernández",
     page_icon= "👨‍💻",
     layout= "wide",
     initial_sidebar_state= "collapsed" 
@@ -25,8 +25,6 @@ st.set_page_config(
 #===========================================
 # ESTILOS CSS PERSONALIZADOS
 #===========================================
-
-
 def load_css():
     st.markdown("""
         <style>
@@ -444,6 +442,8 @@ def load_css():
             /* Animation for loading */
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
+from streamlit_option_menu import option_menu
+from streamlit_option_menu import option_menu
                 to { opacity: 1; transform: translateY(0); }
             }
             
@@ -740,7 +740,7 @@ def home_page():
     st.markdown("---")
     
     # Resumen Profesional
-    col1, col2 = st.columns([1,2])
+    col1, col2 = st.columns([2,1])
     with col1: 
         st.header("🎯 Perfil Profesional")
         st.write("""
@@ -756,27 +756,26 @@ def home_page():
             
             **Actualmente buscando oportunidades en Madrid** como Data Analyst, Business Intelligence Analyst 
             o Data Scientist Junior en empresas que valoren la innovación y el crecimiento basado en datos.
-        """)
+        """, unsafe_allow_html=True)
+    data_stack_tecnico = {
+        "Categoría": [
+            "Lenguajes",
+            "Librerías Principales",
+            "Herramientas"
+        ],
+        "Detalles": [
+            "Python (Avanzado)| SQL (Intermedio)",
+            "Pandas| NumPy| SciPy | Plotly| Matplotlib|  Seaborn| Streamlit| Flask| Scikit-learn",
+            "Git/GitHub| Excel Avanzado| Power BI| APIs REST"
+        ]
+    }
+    df_stack_tecnico = pd.DataFrame(data_stack_tecnico)
+    df_stack_tecnico["Detalles"]=df_stack_tecnico["Detalles"].apply(lambda x: x.replace("|","<br>"))
     
     with col2:
         st.header("🛠️ Stack Técnico")
-        st.markdown("""
-            **Lenguajes:**
-            - 🐍 Python (Avanzado)
-            - 📊 SQL (Intermedio)   
-            
-            **Líbrerias Principales:**
-            - Pandas, NumPy, SciPy
-            - Plotly, Matplotlib, Seaborn
-            - Streamlit, Flask
-            - Scikit-learn         
-
-            **Herramientas:**
-            - Git/GitHub
-            - Excel Avanzado
-            - Power BI
-            - APIs REST
-        """)
+        df_html = df_stack_tecnico.to_html(index=False, escape=False)
+        st.markdown(df_html, unsafe_allow_html=True) 
     
     # Timeline reciente y distribución de tecnologías
     col1,col2 = st.columns(2)
@@ -1144,18 +1143,21 @@ def main():
             orientation= "horizontal",
             styles= {
                 "container": {"padding": "0!important", "background-color": "#0e1117"},
-                "icon": {"color": "#1f77b4", "font-size": "18px"},
+                "icon": {"font-size": "18px"},
                 "nav-link": {
                     "font-size": "16px",
                     "text-align": "center",
                     "margin": "0px",
-                    "color": "white",
+                    "color": "#1f77b4",
                     "--hover-color": "#1e2130",
                 },
+                
                 "nav-link-selected": {
                     "background-color": "#1f77b4",
                     "font-weight": "normal",
+                    "color": "white",
                 },
+                
             }
         )
     
