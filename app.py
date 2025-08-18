@@ -26,159 +26,453 @@ st.set_page_config(
 # ESTILOS CSS PERSONALIZADOS
 #===========================================
 
+
 def load_css():
     st.markdown("""
         <style>
-            /* Importar fuentes de Google */ 
-            @import url("'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap")
-
-            /* Variables CSS */
-            :root{
-                --primary-color: #1f77b4;
-                --secondary-color: #ff7f0e;
-                --accent-color: #2ca02c;
-                --background-dark: #0e1117;
-                --text-light: #fafafa;
-                --card-bg: #262730;
+            /* Importar fuentes similares a Plotly */
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+            
+            /* Variables CSS - Plotly Dark Theme */
+            :root {
+                --plotly-bg-primary: #111111;
+                --plotly-bg-secondary: #1a1a1a;
+                --plotly-bg-tertiary: #262626;
+                --plotly-accent-blue: #636efa;
+                --plotly-accent-orange: #ff6692;
+                --plotly-accent-green: #19d3f3;
+                --plotly-text-primary: #f8f9fa;
+                --plotly-text-secondary: #d1d5db;
+                --plotly-text-muted: #9ca3af;
+                --plotly-border: #374151;
+                --plotly-border-light: #4b5563;
+                --plotly-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+                --plotly-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+                --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             }
             
-            /* Reset y estilos generales */
+            /* Reset y base styles */
+            * {
+                box-sizing: border-box;
+            }
+            
+            .stApp {
+                background: var(--plotly-bg-primary) !important;
+                color: var(--plotly-text-primary) !important;
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            }
+            
             .main > div {
-                padding-top: 0rem;
+                padding-top: 1rem !important;
+                background: var(--plotly-bg-primary);
             }
             
-            /* Estilo del header principal */
+            /* Hero Section - Plotly Style */
             .hero-section {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                padding: 4rem 2rem;
-                border-radius: 15px;
-                margin-bottom: 2rem;
+                background: linear-gradient(135deg, var(--plotly-bg-secondary) 0%, var(--plotly-bg-tertiary) 100%);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
+                padding: 4rem 3rem;
+                margin: 1rem 0 2rem 0;
                 text-align: center;
-                color: white;
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--plotly-shadow-lg);
+            }
+            
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--plotly-accent-blue), var(--plotly-accent-green), var(--plotly-accent-orange));
             }
             
             .hero-title {
-                font-family: 'Poppins', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 3.5rem;
-                font-weight: 700;
+                font-weight: 800;
+                letter-spacing: -0.025em;
                 margin-bottom: 1rem;
-                background: linear-gradient(45deg, #ffffff, #e0e0e0);
+                background: linear-gradient(135deg, var(--plotly-text-primary) 0%, var(--plotly-text-secondary) 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
+                line-height: 1.1;
             }
             
-            .hero-subtitle{
-                font-family: 'Poppins', sans-serif;
-                font-size: 1.2rem;
-                font-weight: 300;
-                opacity: 0.9;
+            .hero-subtitle {
+                font-size: 1.25rem;
+                font-weight: 400;
+                color: var(--plotly-text-secondary);
                 margin-bottom: 2rem;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+                line-height: 1.6;
             }
             
-            /* Cards de proyectos */
+            /* Project Cards - Plotly Style */
             .project-card {
-                background: #262730;
-                border-radius: 15px;
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
                 padding: 2rem;
-                margin: 1rem 0;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                margin: 1.5rem 0;
+                transition: var(--transition);
+                box-shadow: var(--plotly-shadow);
+                position: relative;
+                overflow: hidden;
             }
             
             .project-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+                transform: translateY(-2px);
+                border-color: var(--plotly-accent-blue);
+                box-shadow: var(--plotly-shadow-lg);
+                background: linear-gradient(135deg, var(--plotly-bg-secondary) 0%, rgba(99, 110, 250, 0.05) 100%);
+            }
+            
+            .project-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: var(--plotly-accent-blue);
+                opacity: 0;
+                transition: var(--transition);
+            }
+            
+            .project-card:hover::before {
+                opacity: 1;
             }
             
             .project-title {
-                font-family: 'Poppins', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 1.5rem;
                 font-weight: 600;
-                color: #1f77b4;
+                color: var(--plotly-text-primary);
                 margin-bottom: 1rem;
+                line-height: 1.4;
             }
             
+            .project-title:hover {
+                color: var(--plotly-accent-blue);
+                transition: var(--transition);
+            }
+            
+            /* Tech Tags - Plotly Inspired */
             .tech-tag {
-                display: inline-block;
-                background: linear-gradient(45deg, #1f77b4, #ff7f0e);
-                color: white;
-                padding: 0.3rem 0.8rem;
+                display: inline-flex;
+                align-items: center;
+                background: rgba(99, 110, 250, 0.1);
+                color: var(--plotly-accent-blue);
+                border: 1px solid rgba(99, 110, 250, 0.2);
+                padding: 0.25rem 0.75rem;
                 border-radius: 20px;
                 font-size: 0.8rem;
-                margin: 0.2rem;
                 font-weight: 500;
+                margin: 0.25rem;
+                transition: var(--transition);
+                font-family: 'JetBrains Mono', monospace;
             }
             
-            /* Métricas personalizadas */
+            .tech-tag:hover {
+                background: rgba(99, 110, 250, 0.2);
+                border-color: var(--plotly-accent-blue);
+                transform: scale(1.05);
+            }
+            
+            /* Metrics - Plotly Dashboard Style */
             .custom-metric {
-                background: #262730;
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
                 padding: 1.5rem;
-                border-radius: 10px;
                 text-align: center;
-                border-left: 4px solid #1f77b4;
+                transition: var(--transition);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .custom-metric::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: var(--plotly-accent-green);
+            }
+            
+            .custom-metric:hover {
+                border-color: var(--plotly-accent-green);
+                background: linear-gradient(135deg, var(--plotly-bg-secondary) 0%, rgba(25, 211, 243, 0.05) 100%);
             }
             
             .metric-value {
-                font-size: 2.5rem;
+                font-family: 'Inter', sans-serif;
+                font-size: 2.25rem;
                 font-weight: 700;
-                color: #1f77b4;
+                color: var(--plotly-text-primary);
+                margin-bottom: 0.5rem;
+                line-height: 1;
             }
             
             .metric-label {
-                font-size: 1rem;
-                color: #888;
-                margin-top: 0.5rem;
+                font-size: 0.875rem;
+                color: var(--plotly-text-muted);
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
             }
             
-            /* Botones personalizados */
+            /* Buttons - Plotly Action Style */
             .custom-button {
-                background: linear-gradient(45deg, #1f77b4, #ff7f0e);
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: var(--plotly-accent-blue);
                 color: white;
-                padding: 0.8rem 2rem;
-                border: none;
-                border-radius: 25px;
+                border: 1px solid var(--plotly-accent-blue);
+                padding: 0.75rem 1.5rem;
+                border-radius: 6px;
                 text-decoration: none;
-                font-weight: 600;
-                display: inline-block;
-                margin: 0.5rem;
-                transition: transform 0.3s ease;
+                font-weight: 500;
+                font-size: 0.9rem;
+                margin: 0.25rem;
+                transition: var(--transition);
+                box-shadow: var(--plotly-shadow);
             }
             
             .custom-button:hover {
-                transform: scale(1.05);
+                background: transparent;
+                color: var(--plotly-accent-blue);
+                border-color: var(--plotly-accent-blue);
+                transform: translateY(-1px);
+                box-shadow: var(--plotly-shadow-lg);
                 text-decoration: none;
-                color: white;
             }
             
-            /* Skills grid */
+            /* Skills Grid */
             .skills-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 1rem;
-                margin: 2rem 0
+                margin: 2rem 0;
             }
             
             .skill-item {
-                background: #262730;
-                padding: 1rem;
-                border-radius: 10px;
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
+                padding: 1.5rem;
                 text-align: center;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: var(--transition);
+                position: relative;
+            }
+            
+            .skill-item:hover {
+                border-color: var(--plotly-accent-orange);
+                background: linear-gradient(135deg, var(--plotly-bg-secondary) 0%, rgba(255, 102, 146, 0.05) 100%);
+                transform: translateY(-2px);
+            }
+            
+            .skill-item h4 {
+                color: var(--plotly-text-primary);
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+            }
+            
+            .skill-item p {
+                color: var(--plotly-text-secondary);
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+            
+            /* Sections */
+            .section {
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
+                padding: 2rem;
+                margin: 1.5rem 0;
+                box-shadow: var(--plotly-shadow);
+            }
+            
+            /* Typography */
+            h1, h2, h3, h4, h5, h6 {
+                color: var(--plotly-text-primary) !important;
+                font-family: 'Inter', sans-serif !important;
+                font-weight: 600;
+                line-height: 1.3;
+            }
+            
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.75rem; }
+            h4 { font-size: 1.5rem; }
+            
+            p, li, span {
+                color: var(--plotly-text-secondary) !important;
+                line-height: 1.6;
+            }
+            
+            strong {
+                color: var(--plotly-text-primary) !important;
+                font-weight: 600;
+            }
+            
+            /* Links */
+            a {
+                color: var(--plotly-accent-blue);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+            
+            a:hover {
+                color: var(--plotly-accent-green);
+                text-decoration: underline;
+            }
+            
+            /* Contact Form */
+            .contact-form {
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
+                padding: 2rem;
+                box-shadow: var(--plotly-shadow);
+            }
+            
+            /* Streamlit Component Overrides */
+            .stSelectbox > div > div {
+                background-color: var(--plotly-bg-secondary) !important;
+                border-color: var(--plotly-border) !important;
+                color: var(--plotly-text-primary) !important;
+            }
+            
+            .stMultiSelect > div > div {
+                background-color: var(--plotly-bg-secondary) !important;
+                border-color: var(--plotly-border) !important;
+            }
+            
+            .stTextInput > div > div > input,
+            .stTextArea > div > div > textarea {
+                background-color: var(--plotly-bg-secondary) !important;
+                border-color: var(--plotly-border) !important;
+                color: var(--plotly-text-primary) !important;
+            }
+            
+            .stTextInput > div > div > input:focus,
+            .stTextArea > div > div > textarea:focus {
+                border-color: var(--plotly-accent-blue) !important;
+                box-shadow: 0 0 0 1px var(--plotly-accent-blue) !important;
+            }
+            
+            /* Plotly Chart Containers */
+            .js-plotly-plot {
+                background: var(--plotly-bg-secondary) !important;
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
+                box-shadow: var(--plotly-shadow);
             }
             
             /* Footer */
             .footer {
-                text-align: center;
+                background: var(--plotly-bg-secondary);
+                border: 1px solid var(--plotly-border);
+                border-radius: 8px;
                 padding: 2rem;
                 margin-top: 3rem;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                color: #888;
+                text-align: center;
+                color: var(--plotly-text-muted);
+                box-shadow: var(--plotly-shadow);
+            }
+            
+            .footer a {
+                color: var(--plotly-accent-blue);
+                font-weight: 500;
+            }
+            
+            .footer a:hover {
+                color: var(--plotly-accent-green);
+            }
+            
+            /* Code blocks */
+            code {
+                background: rgba(99, 110, 250, 0.1) !important;
+                color: var(--plotly-accent-blue) !important;
+                padding: 0.2rem 0.4rem !important;
+                border-radius: 4px !important;
+                font-family: 'JetBrains Mono', monospace !important;
+                font-size: 0.875rem !important;
+            }
+            
+            /* Dividers */
+            hr {
+                border: none !important;
+                height: 1px !important;
+                background: var(--plotly-border) !important;
+                margin: 2rem 0 !important;
+            }
+            
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .hero-title {
+                    font-size: 2.5rem;
+                }
+                
+                .hero-subtitle {
+                    font-size: 1.125rem;
+                }
+                
+                .project-card,
+                .custom-metric,
+                .skill-item {
+                    padding: 1.5rem;
+                }
+                
+                .skills-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            
+            /* Animation for loading */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .project-card,
+            .custom-metric,
+            .skill-item {
+                animation: fadeIn 0.3s ease-out;
+            }
+            
+            /* Success/Error Messages */
+            .stSuccess > div {
+                background: rgba(25, 211, 243, 0.1) !important;
+                border-color: var(--plotly-accent-green) !important;
+                color: var(--plotly-text-primary) !important;
+            }
+            
+            .stError > div {
+                background: rgba(255, 102, 146, 0.1) !important;
+                border-color: var(--plotly-accent-orange) !important;
+                color: var(--plotly-text-primary) !important;
+            }
+            
+            .stInfo > div {
+                background: rgba(99, 110, 250, 0.1) !important;
+                border-color: var(--plotly-accent-blue) !important;
+                color: var(--plotly-text-primary) !important;
             }
         </style>
     """, unsafe_allow_html=True)
-
 #===========================================
 # DATOS DE PROYECTOS
 #===========================================
@@ -761,7 +1055,7 @@ def show_contact():
         [anderson.ing.24@gmail.com](mailto:anderson.ing.24@gmail.com)
         
         **💼 LinkedIn:**  
-        [linkedin.com/in/anderson-hernandez](https://linkedin.com/in/anderson-hernandez)
+        [linkedin.com/in/anderson-hern%C3%A1ndez-1681a82a3](https://www.linkedin.com/in/anderson-hern%C3%A1ndez-1681a82a3/)
         
         **💻 GitHub:**  
         [github.com/beyondAnalysIs](https://github.com/beyondAnalysIs)
