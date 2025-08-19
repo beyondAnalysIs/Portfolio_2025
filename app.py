@@ -227,14 +227,12 @@ def load_css():
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
             }
-            
+        
             /* Buttons - Plotly Action Style */
             .custom-button {
                 display: inline-flex;
                 align-items: center;
                 gap: 0.5rem;
-                background: var(--plotly-accent-blue);
-                color: white;
                 border: 1px solid var(--plotly-accent-blue);
                 padding: 0.75rem 1.5rem;
                 border-radius: 6px;
@@ -244,11 +242,14 @@ def load_css():
                 margin: 0.25rem;
                 transition: var(--transition);
                 box-shadow: var(--plotly-shadow);
+                background: var(--plotly-accent-blue);
+                color: white !important; 
+                text-decoration: none !important; 
             }
             
             .custom-button:hover {
-                background: transparent;
-                color: var(--plotly-accent-blue);
+                background: var(--plotly-bg-secondary);
+                color: var(--plotly-accent-blue) !important;
                 border-color: var(--plotly-accent-blue);
                 transform: translateY(-1px);
                 box-shadow: var(--plotly-shadow-lg);
@@ -442,8 +443,8 @@ def load_css():
             /* Animation for loading */
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
-from streamlit_option_menu import option_menu
-from streamlit_option_menu import option_menu
+                from streamlit_option_menu import option_menu
+                from streamlit_option_menu import option_menu
                 to { opacity: 1; transform: translateY(0); }
             }
             
@@ -602,10 +603,16 @@ def create_tech_distribution():
             else:
                 tech_counts[tech] = 1
 
-    fig = px.pie(
-        values=list(tech_counts.values()),
-        names=list(tech_counts.keys()),
-        title="Distribución de Tecnologías"
+    tech_names = list(tech_counts.keys())
+    tech_values = list(tech_counts.values())
+
+    fig = px.treemap(
+        names=tech_names,
+        parents=[""] * len(tech_names), # Necesario para un treemap de un solo nivel
+        values=tech_values,
+        title="Distribución de Tecnologías por Frecuencia de Uso",
+        color=tech_names, # Colorea cada rectángulo según la tecnología
+        color_discrete_sequence=px.colors.qualitative.Pastel # Elige una paleta de colores
     )
 
     fig.update_layout(
@@ -666,28 +673,27 @@ def display_projects_card(project):
             """, unsafe_allow_html=True)
             
         # Botones de acción
-        col1,col2 = st.columns(2)
-        with col1:
-            st.markdown(f"""
+            github_button=f"""    
                 <a href="{project["github_url"]}" target="_blank" class="custom-buttom">
-                    📂 Ver Código
-                </a> 
-            """, unsafe_allow_html=True)
-
-        with col2:
-            if project["demo_url"]:
-                st.markdown(f"""
-                    <a href="{project['demo_url']}" target="_blank" class="custom-button">
-                        🚀 Demo Live
-                    </a>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                    <span style="color: #888; font-style= italic; padding: .8rem; display: inline-block;">
-                        📦 Repositorio Local
-                    </span>
-                """, unsafe_allow_html=True)   
-      
+                    <svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle" fill="white">
+                        <path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path>
+                    </svg>
+                </a>
+                """                
+       
+            demo_button=f"""
+                <a href="{project['demo_url']}" target="_blank" class="custom-button">
+                    🚀 Demo Live
+                </a>
+                """ if project["demo_url"] else """
+                <span style="color: #888; font-style= italic; padding: .8rem; display: inline-block;">
+                    📦 Repositorio Local
+                </span>
+                """
+            with st.container(horizontal=True, horizontal_alignment="center"):
+                st.markdown(github_button + demo_button, unsafe_allow_html=True)
+                            
+        
 #===========================================
 # PÁGINAS DE LA APLICACIÓN
 #===========================================
